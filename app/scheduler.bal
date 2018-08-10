@@ -41,7 +41,7 @@ function main(string... args) {
             if (lengthof taskAndMin > 1) {
                 int minute = check <int>taskAndMin[1];
                 string cronExpression = minute + " * * * * ?";
-                scheduleAppointment(cronExpression, untaint pickedTask);
+                scheduleAppointment(getUntaintedStringIfValid(cronExpression), getUntaintedJsonIfValid(pickedTask));
             }
         }
     }
@@ -56,7 +56,7 @@ function scheduleAppointment(string cronExpression, json googleTask) {
     (function (error)) onErrorFunction = onError;
     // Schedule appointment.
     log:printInfo("Scheduling appointment");
-    app = new task:Appointment(onTriggerFunction, onErrorFunction, untaint cronExpression);
+    app = new task:Appointment(onTriggerFunction, onErrorFunction, cronExpression);
     app.schedule();
     googleTask.title = SCHEDULED + googleTask.title.toString();
     json updatedJson = updateTasks(BALLERINA_DAY, googleTask.id.toString(), googleTask);
@@ -80,4 +80,14 @@ function onError(error e) {
 function cancelAppointment() {
     log:printInfo("Cancelling the appointment");
     app.cancel();
+}
+
+function getUntaintedStringIfValid(string input) returns @untainted string {
+    // Do some validation to the input string and return the untainted string here
+    return untaint input;
+}
+
+function getUntaintedJsonIfValid(json input) returns @untainted json {
+    // Do some validation to the input string and return the untainted string here
+    return untaint input;
 }
