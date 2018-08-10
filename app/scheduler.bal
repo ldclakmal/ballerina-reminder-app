@@ -24,32 +24,26 @@ import ballerina/time;
 task:Appointment? app;
 
 @final string BALLERINA_DAY = "BallerinaDay";
-@final string SCHEDULED = "[Scheduled]";
+@final string SCHEDULED = "[⏰] ";
 
 function main(string... args) {
-    //Go pick tasks
+    // Go pick tasks
     json taskList = listTasks(BALLERINA_DAY);
     json tasks = taskList.items;
-    int noOfTasks = lengthof tasks;
-    io:println("Number of tasks: " + noOfTasks);
-
-    int i = 0;
-    //Iterate tasks and shedule an appointment
-    while (i < noOfTasks) {
-        io:println(tasks[i].title);
-        string taskTitle = tasks[i].title.toString();
-        //Task title coming from google task
-        if (!taskTitle.contains(SCHEDULED)) {
-            if(taskTitle.contains("/")) {
-                string[] taskAndMin = taskTitle.split("/");
-                if (lengthof taskAndMin > 1) {
-                    int minute = check <int>taskAndMin[1];
-                    string cronExpression = minute + " * * * * ?";
-                    scheduleAppointment(cronExpression, untaint tasks[i]);
-                }
+    // Get the first tasks and shedule an appointment
+    json pickedTask = tasks[0];
+    log:printInfo("Picked: " + pickedTask.title.toString());
+    string taskTitle = pickedTask.title.toString();
+    // Task title coming from google task
+    if (!taskTitle.contains(SCHEDULED)) {
+        if (taskTitle.contains("/")) {
+            string[] taskAndMin = taskTitle.split("/");
+            if (lengthof taskAndMin > 1) {
+                int minute = check <int>taskAndMin[1];
+                string cronExpression = minute + " * * * * ?";
+                scheduleAppointment(cronExpression, untaint pickedTask);
             }
         }
-        i = i + 1;
     }
     //Eliminate program from exiting.
     runtime:sleep(600000);
@@ -61,17 +55,17 @@ function scheduleAppointment(string cronExpression, json googleTask) {
     // Define on error function
     (function (error)) onErrorFunction = onError;
     // Schedule appointment.
-    io:println("Schedule Appointment");
+    log:printInfo("Scheduling appointment");
     app = new task:Appointment(onTriggerFunction, onErrorFunction, untaint cronExpression);
     app.schedule();
     googleTask.title = SCHEDULED + googleTask.title.toString();
     json updatedJson = updateTasks(BALLERINA_DAY, googleTask.id.toString(), googleTask);
-    io:println("Scheduled");
+    log:printInfo("Scheduled appointment");
 }
 
-//Trigger the task
+// Trigger the task
 function onTrigger() returns error? {
-    io:println("On trigger");
+    log:printInfo("Triggered the task");
     send("Reminder! There's a google task that needs to be attended.");
     cancelAppointment();
     return ();
@@ -79,11 +73,11 @@ function onTrigger() returns error? {
 
 // Define the ‘onError’ function for the task timer.
 function onError(error e) {
-    io:print("[ERROR] failed to execute timed task");
-    io:println(e);
+    log:printError("[ERROR] failed to execute timed task", err = e);
 }
 
 // Define the function to stop the task.
 function cancelAppointment() {
+    log:printInfo("Cancelling the appointment");
     app.cancel();
 }

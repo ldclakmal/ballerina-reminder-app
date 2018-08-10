@@ -26,13 +26,13 @@ endpoint twilio:Client twilioClient {
     authToken: config:getAsString("AUTH_TOKEN")
 };
 
+// Send SMS with given message
 function send(string message) {
     string fromMobile = config:getAsString("FROM_MOBILE");
     string toMobile = config:getAsString("TO_MOBILE");
 
-    io:println(fromMobile);
-    io:println(toMobile);
-    
+    log:printInfo("SMS Sending FROM: " + fromMobile + " TO: " +toMobile);
+
     var details = twilioClient->sendSms(fromMobile, toMobile, message);
     match details {
         twilio:SmsResponse smsResponse => io:println(smsResponse);

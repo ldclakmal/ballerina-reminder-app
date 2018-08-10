@@ -32,6 +32,7 @@ endpoint gtasks:Client gtasksClient {
     }
 };
 
+// List all the task lists
 function listTaskLists() returns json {
     var details = gtasksClient->listTaskLists();
     match details {
@@ -43,6 +44,7 @@ function listTaskLists() returns json {
     }
 }
 
+// List all the tasks of given task list
 function listTasks(string taskListName) returns json {
     var details = gtasksClient->listTasks(taskListName);
     match details {
@@ -54,6 +56,7 @@ function listTasks(string taskListName) returns json {
     }
 }
 
+// Update the task with given details
 function updateTasks(string taskListName, string taskId, json task) returns json {
     var details = gtasksClient->updateTask(taskListName, taskId, task);
     match details {
