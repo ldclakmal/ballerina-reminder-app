@@ -27,10 +27,8 @@ endpoint twilio:Client twilioClient {
 };
 
 function send(string message) {
-    log:printInfo("twilioClient -> sendSms()");
-
-    string fromMobile = config:getAsString("SAMPLE_FROM_MOBILE");
-    string toMobile = config:getAsString("SAMPLE_TO_MOBILE");
+    string fromMobile = config:getAsString("FROM_MOBILE");
+    string toMobile = config:getAsString("TO_MOBILE");
 
     io:println(fromMobile);
     io:println(toMobile);

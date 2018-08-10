@@ -24,28 +24,29 @@ import ballerina/time;
 task:Appointment? app;
 
 function main(string... args) {
-        //Go pick tasks
-        json taskList = listTasks("BallerinaDay");
-        //Shedule tasks
-        json tasks = taskList.items;
-        int noOfTasks = lengthof tasks;
-        io:println("Number of tasks: " + noOfTasks);
+    //Go pick tasks
+    json taskList = listTasks("BallerinaDay");
+    //Shedule tasks
+    json tasks = taskList.items;
+    int noOfTasks = lengthof tasks;
+    io:println("Number of tasks: " + noOfTasks);
 
-        int i = 0;
-         while (i < noOfTasks) {
-            io:println(tasks[i].title);
-            string taskTitle = tasks[i].title.toString(); //Task title coming from google task
-            if (!taskTitle.contains("[Scheduled]")) {
-                string[] taskAndMin = taskTitle.split("/");
-                int minute = check <int>taskAndMin[1];
-                string cronExpression =  minute + " * * * * ?";
-                scheduleAppointment(cronExpression, untaint tasks[i]);
-                runtime:sleep(600000);
-            }
-           
-            i = i + 1;
+    int i = 0;
+    while (i < noOfTasks) {
+        io:println(tasks[i].title);
+        string taskTitle = tasks[i].title.toString();
+        //Task title coming from google task
+        if (!taskTitle.contains("[Scheduled]")) {
+            string[] taskAndMin = taskTitle.split("/");
+            int minute = check <int>taskAndMin[1];
+            string cronExpression = minute + " * * * * ?";
+            scheduleAppointment(cronExpression, untaint tasks[i]);
+            runtime:sleep(600000);
         }
-  //  }   
+
+        i = i + 1;
+    }
+    //  }
 }
 
 function scheduleAppointment(string cronExpression, json googleTask) {
@@ -64,7 +65,7 @@ function scheduleAppointment(string cronExpression, json googleTask) {
 
 function onTrigger() returns error? {
     io:println("On trigger");
-   // send("Reminder! There's a google task that needs to be attended."); //Send SMS
+    send("Reminder! There's a google task that needs to be attended.");
     cancelAppointment();
     return ();
 }
