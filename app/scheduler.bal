@@ -40,12 +40,14 @@ function main(string... args) {
         string taskTitle = tasks[i].title.toString();
         //Task title coming from google task
         if (!taskTitle.contains(SCHEDULED)) {
-            string[] taskAndMin = taskTitle.split("/");
-            if (lengthof taskAndMin > 1) {
-                int minute = check <int>taskAndMin[1];
-                string cronExpression = minute + " * * * * ?";
-                scheduleAppointment(cronExpression, untaint tasks[i]);
-                runtime:sleep(600000);
+            if(taskTitle.contains("/")) {
+                string[] taskAndMin = taskTitle.split("/");
+                if (lengthof taskAndMin > 1) {
+                    int minute = check <int>taskAndMin[1];
+                    string cronExpression = minute + " * * * * ?";
+                    scheduleAppointment(cronExpression, untaint tasks[i]);
+                    runtime:sleep(600000);
+                }
             }
         }
         i = i + 1;
