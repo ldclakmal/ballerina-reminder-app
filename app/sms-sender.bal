@@ -13,3 +13,31 @@
 // KIND, either express or implied.  See the License for the
 // specific language governing permissions and limitations
 // under the License.
+
+// ACCOUNT_SID, AUTH_TOKEN, AUTHY_API_KEY should be changed with your own account credentials
+
+import ballerina/http;
+import wso2/twilio;
+import ballerina/config;
+import ballerina/log;
+
+endpoint twilio:Client twilioClient {
+    accountSId: config:getAsString("ACCOUNT_SID"),
+    authToken: config:getAsString("AUTH_TOKEN")
+};
+
+function send(string message) {
+    log:printInfo("twilioClient -> sendSms()");
+
+    string fromMobile = config:getAsString("SAMPLE_FROM_MOBILE");
+    string toMobile = config:getAsString("SAMPLE_TO_MOBILE");
+
+    io:println(fromMobile);
+    io:println(toMobile);
+    
+    var details = twilioClient->sendSms(fromMobile, toMobile, message);
+    match details {
+        twilio:SmsResponse smsResponse => io:println(smsResponse);
+        twilio:TwilioError twilioError =>log:printInfo(twilioError.message);
+    }
+}
