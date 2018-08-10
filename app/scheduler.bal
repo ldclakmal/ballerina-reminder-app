@@ -23,30 +23,33 @@ import ballerina/time;
 
 task:Appointment? app;
 
+@final string BALLERINA_DAY = "BallerinaDay";
+@final string SCHEDULED = "[Scheduled]";
+
 function main(string... args) {
     //Go pick tasks
-    json taskList = listTasks("BallerinaDay");
-    //Shedule tasks
+    json taskList = listTasks(BALLERINA_DAY);
     json tasks = taskList.items;
     int noOfTasks = lengthof tasks;
     io:println("Number of tasks: " + noOfTasks);
 
     int i = 0;
+    //Iterate tasks and shedule an appointment
     while (i < noOfTasks) {
         io:println(tasks[i].title);
         string taskTitle = tasks[i].title.toString();
         //Task title coming from google task
-        if (!taskTitle.contains("[Scheduled]")) {
+        if (!taskTitle.contains(SCHEDULED)) {
             string[] taskAndMin = taskTitle.split("/");
-            int minute = check <int>taskAndMin[1];
-            string cronExpression = minute + " * * * * ?";
-            scheduleAppointment(cronExpression, untaint tasks[i]);
-            runtime:sleep(600000);
+            if (lengthof taskAndMin > 1) {
+                int minute = check <int>taskAndMin[1];
+                string cronExpression = minute + " * * * * ?";
+                scheduleAppointment(cronExpression, untaint tasks[i]);
+                runtime:sleep(600000);
+            }
         }
-
         i = i + 1;
     }
-    //  }
 }
 
 function scheduleAppointment(string cronExpression, json googleTask) {
@@ -58,11 +61,12 @@ function scheduleAppointment(string cronExpression, json googleTask) {
     io:println("Schedule Appointment");
     app = new task:Appointment(onTriggerFunction, onErrorFunction, untaint cronExpression);
     app.schedule();
-    googleTask.title = "Scheduled" + googleTask.title.toString();
-    json updatedJson = updateTasks("BallerinaDay", googleTask.id.toString(), googleTask);
+    googleTask.title = SCHEDULED + googleTask.title.toString();
+    json updatedJson = updateTasks(BALLERINA_DAY, googleTask.id.toString(), googleTask);
     io:println("Scheduled");
 }
 
+//Trigger the task
 function onTrigger() returns error? {
     io:println("On trigger");
     send("Reminder! There's a google task that needs to be attended.");

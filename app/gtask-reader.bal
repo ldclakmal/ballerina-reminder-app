@@ -27,8 +27,7 @@ endpoint gtasks:Client gtasksClient {
             accessToken: config:getAsString("ACCESS_TOKEN"),
             clientId: config:getAsString("CLIENT_ID"),
             clientSecret: config:getAsString("CLIENT_SECRET"),
-            refreshToken: config:getAsString("REFRESH_TOKEN"),
-            refreshUrl: config:getAsString("REFRESH_URL")
+            refreshToken: config:getAsString("REFRESH_TOKEN")
         }
     }
 };
