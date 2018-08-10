@@ -24,38 +24,8 @@ import ballerina/time;
 task:Appointment? app;
 
 function main(string... args) {
-    //Go pick tasks
-   // while (true) {
-           json taskList = {
-                "kind": "tasks#taskLists",
-                "etag": "string",
-                "nextPageToken": "string",
-                "items": [
-                           {
-                                "kind": "tasks#task",
-                                "id": "string",
-                                "etag": "etag",
-                                "title": "Task /1",
-                                "updated": 2018/09/99,
-                                "selfLink": "string",
-                                "parent": "string",
-                                "position": "string",
-                                "notes": "string",
-                                "status": "string",
-                                "due": "2018-08-10",
-                                "completed": 2018/08/10,
-                                "deleted": "boolean",
-                                "hidden": "boolean",
-                                "links": [
-                                            {
-                                                "type": "string",
-                                                "description": "string",
-                                                "link": "string"
-                                            }
-                                        ]
-                            }
-                        ]
-                };
+        //Go pick tasks
+        json taskList = listTasks("BallerinaDay");
         //Shedule tasks
         json tasks = taskList.items;
         int noOfTasks = lengthof tasks;
@@ -69,7 +39,7 @@ function main(string... args) {
                 string[] taskAndMin = taskTitle.split("/");
                 int minute = check <int>taskAndMin[1];
                 string cronExpression =  minute + " * * * * ?";
-                scheduleAppointment(cronExpression);
+                scheduleAppointment(cronExpression, untaint tasks[i]);
                 runtime:sleep(600000);
             }
            
@@ -78,21 +48,23 @@ function main(string... args) {
   //  }   
 }
 
-function scheduleAppointment(string cronExpression) {
+function scheduleAppointment(string cronExpression, json googleTask) {
     // Define on trigger function
     (function() returns error?) onTriggerFunction = onTrigger;
     // Define on error function
     (function (error)) onErrorFunction = onError;
     // Schedule appointment.
     io:println("Schedule Appointment");
-    app = new task:Appointment(onTriggerFunction, onErrorFunction, cronExpression);
+    app = new task:Appointment(onTriggerFunction, onErrorFunction, untaint cronExpression);
     app.schedule();
+    googleTask.title = "Scheduled" + googleTask.title.toString();
+    json updatedJson = updateTasks("BallerinaDay", googleTask.id.toString(), googleTask);
     io:println("Scheduled");
 }
 
 function onTrigger() returns error? {
     io:println("On trigger");
-    send("Reminder! There's a google task that needs to be attended."); //Send SMS
+   // send("Reminder! There's a google task that needs to be attended."); //Send SMS
     cancelAppointment();
     return ();
 }
