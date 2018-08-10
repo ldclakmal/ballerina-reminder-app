@@ -3,7 +3,7 @@
 This app will fetch the tasks set at Google Tasks and schedule the SMS notifications reminding that there is a task
 scheduled.
 
-## How to Start
+## How to Configure
 
 1. First, you need to have a [Google](https://accounts.google.com/SignUp?hl=en-GB) account and a
 [Twilio](https://www.twilio.com/try-twilio) account obtain credentials.
@@ -53,3 +53,16 @@ TO_MOBILE=""
 ```
 
 4. Now you are done with configurations.
+
+## How to Start
+
+1. Run the app executing following command from the project level.
+```
+$ ballerina run app -c ballerina.conf
+```
+
+2. Create a task at the Google Tasks in following format.
+```
+This is my message /5
+```
+> The above message will be sent as an SMS after 5 minutes.
