@@ -46,12 +46,13 @@ function main(string... args) {
                     int minute = check <int>taskAndMin[1];
                     string cronExpression = minute + " * * * * ?";
                     scheduleAppointment(cronExpression, untaint tasks[i]);
-                    runtime:sleep(600000);
                 }
             }
         }
         i = i + 1;
     }
+    //Eliminate program from exiting.
+    runtime:sleep(600000);
 }
 
 function scheduleAppointment(string cronExpression, json googleTask) {
