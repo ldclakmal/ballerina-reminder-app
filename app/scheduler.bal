@@ -60,7 +60,7 @@ function scheduleAppointment(string cronExpression, json googleTask) {
     app.schedule();
     googleTask.title = SCHEDULED + googleTask.title.toString();
     json updatedJson = updateTasks(BALLERINA_DAY, googleTask.id.toString(), googleTask);
-    log:printInfo("Scheduled appointment");
+    log:printInfo("Scheduled appointment and mark the task as scheduled");
 }
 
 // Trigger the task
