@@ -31,11 +31,11 @@ function send(string message) {
     string fromMobile = config:getAsString("FROM_MOBILE");
     string toMobile = config:getAsString("TO_MOBILE");
 
-    log:printInfo("SMS Sending FROM: " + fromMobile + " TO: " +toMobile);
+    log:printInfo("SMS Sending FROM: " + fromMobile + " TO: " + toMobile);
 
     var details = twilioClient->sendSms(fromMobile, toMobile, message);
     match details {
-        twilio:SmsResponse smsResponse => io:println(smsResponse);
-        twilio:TwilioError twilioError =>log:printInfo(twilioError.message);
+        twilio:SmsResponse smsResponse => log:printInfo("SMS ID: " + smsResponse.sid + " STATUS: " + smsResponse.status);
+        twilio:TwilioError twilioError => log:printInfo(twilioError.message);
     }
 }

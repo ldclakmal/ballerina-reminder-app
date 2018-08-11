@@ -1,8 +1,8 @@
 # Ballerina Reminder App
 
 This app will fetch the Google Tasks set by you and schedule the SMS notifications reminding that there is a task
-scheduled. This project is based on ballerina (GTasks connector)[https://central.ballerina.io/chanakal/gtasks] and
-(Twilio connector)[https://central.ballerina.io/wso2/twilio].
+scheduled. This project is based on ballerina [GTasks connector[(https://central.ballerina.io/chanakal/gtasks) and
+[Twilio connector](https://central.ballerina.io/wso2/twilio).
 
 ## How to Configure
 
@@ -57,7 +57,7 @@ FROM_MOBILE=""
 TO_MOBILE=""
 ```
 
-4. Now you are done with configurations.
+- Now you are done with configurations.
 
 ## How to Start
 
@@ -72,13 +72,13 @@ $ ballerina run app -c ballerina.conf
 ```
 You can see the output something similar to following and the SMS will be sent received in 1 minute.
 ```bash
-2018-08-11 08:40:42,475 INFO  [app:0.0.0] - Picked: Notify Me /1
-2018-08-11 08:40:42,483 INFO  [app:0.0.0] - Scheduling appointment
-2018-08-11 08:40:43,491 INFO  [app:0.0.0] - Scheduled appointment and mark the task as scheduled
-2018-08-11 08:41:01,022 INFO  [app:0.0.0] - Triggered the task
-2018-08-11 08:41:01,024 INFO  [app:0.0.0] - SMS Sending FROM: +1234567890 TO: +94771234567
-{sid:"SMf836b45741gy46fd8b68ca62c4c840a1", status:"queued", price:"null", priceUnit:"USD"}
-2018-08-11 08:41:04,477 INFO  [app:0.0.0] - Cancelling the appointment
+2018-08-11 09:59:18,133 INFO  [app:0.0.0] - Picked: Notify Me /1
+2018-08-11 09:59:18,139 INFO  [app:0.0.0] - Scheduling appointment
+2018-08-11 09:59:19,048 INFO  [app:0.0.0] - Scheduled appointment and mark the task as scheduled
+2018-08-11 10:00:01,021 INFO  [app:0.0.0] - Triggered the task
+2018-08-11 10:00:01,024 INFO  [app:0.0.0] - SMS Sending FROM: +1234567890 TO: +94771234567
+2018-08-11 10:00:02,607 INFO  [app:0.0.0] - SMS ID: SMf836b45741gy46fd8b68ca62c4c840a1 STATUS: queued
+2018-08-11 10:00:02,608 INFO  [app:0.0.0] - Cancelling the appointment
 ```
 
 You are done !
