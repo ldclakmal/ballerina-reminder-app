@@ -15,27 +15,24 @@ scheduled. This project is based on ballerina [GTasks connector[(https://central
 
 1. Visit [Google API Console](https://console.developers.google.com), click **Create Project**, and follow the wizard
 to create a new project.
-2. Go to **Dashboard**, click on **ENABLE APIS AND SERVICES** and select the **Google Task** API and click **ENABLE**.
+2. Go to **Dashboard**, click on **ENABLE APIS AND SERVICES** and select the **Google Task API** and click **ENABLE**.
 3. Go to **Credentials → OAuth consent screen**, enter a product name to be shown to users, and click **Save**.
 4. On the **Credentials** tab, click **Create credentials** and select **OAuth _Client ID_**.
 5. Select an application type, enter a name for the application, and specify a redirect URI.
-- NOTE: Enter https://developers.google.com/oauthplayground if you want to use
-[OAuth 2.0 playground](https://developers.google.com/oauthplayground)
-to receive the _Authorization Code_ and obtain the access token and _Refresh Token_.
-6. Click **Create**. Your _Client ID_ and _Client Secret_ appear.
+- NOTE: Enter https://developers.google.com/oauthplayground if you want to use [OAuth 2.0 playground](https://developers.google.com/oauthplayground) to receive the _Authorization Code_ and obtain the access token and _Refresh Token_.
+6. Click **Create**. Your _Client ID_ and _Client Secret_ will appear as a popup.
 7. In a separate browser window or tab, visit [OAuth 2.0 playground](https://developers.google.com/oauthplayground).
-8. Click the ⚙️ icon (Settings) at the top right corner and tick **Use your own OAuth credentials**.
-9. Paste the obtained _Client ID_ and _Client Secret_ there.
-10. At the left side of the window, select the required Google Task API scopes, and then click **Authorize APIs**.
-11. When you receive your _Authorization Code_, click **Exchange _Authorization Code_ for tokens** to obtain the _Refresh Token_
-and access token.
+8. Click the ⚙️ (settings icon) at the top right corner and you can obtain _Token endpoint_.
+9. Tick **Use your own OAuth credentials** in podown of ⚙️ and paste the obtained _Client ID_ and _Client Secret_ there.
+10. At the left side of the window, under **Step 1 - Select & authorize APIs**, select the required Google Task API scopes, and then click **Authorize APIs**.
+11. When you receive your _Authorization Code_, click **Exchange _Authorization Code_ for tokens** to obtain the _Refresh Token_ and _Access token_.
 
 ### How to obtain Twilio Credentials
 
 1. Login to the Twilio account created.
 2. Go to **Products** tab --> **Programmable SMS** and select **Continue**.
 3. Give a name for the project and click *Continue**. Skip the **Custom Project** step.
-4. In the **Dashboard**, you can see the **Project Info** tab with **ACCOUNT SID**. Click on the tab and obtain the
+4. In the **Console Dashboard**, you can see the **Project Info** tab with **ACCOUNT SID**. Click on the tab and obtain the
 **ACCOUNT SID** and **AUTH TOKEN**.
 
 - Now you have obtained all the credentials you want.
