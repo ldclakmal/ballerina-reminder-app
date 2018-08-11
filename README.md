@@ -23,7 +23,7 @@ to create a new project.
 6. Click **Create**. Your _Client ID_ and _Client Secret_ will appear as a popup.
 7. In a separate browser window or tab, visit [OAuth 2.0 playground](https://developers.google.com/oauthplayground).
 8. Click the ⚙️ (settings icon) at the top right corner and you can obtain _Token endpoint_.
-9. Tick **Use your own OAuth credentials** in podown of ⚙️ and paste the obtained _Client ID_ and _Client Secret_ there.
+9. Tick **Use your own OAuth credentials** in pop-down of ⚙️ and paste the obtained _Client ID_ and _Client Secret_ there.
 10. At the left side of the window, under **Step 1 - Select & authorize APIs**, select the required Google Task API scopes, and then click **Authorize APIs**.
 11. When you receive your _Authorization Code_, click **Exchange _Authorization Code_ for tokens** to obtain the _Refresh Token_ and _Access token_.
 
@@ -41,7 +41,7 @@ to create a new project.
 
 2. Go to **Programmable SMS** at Twilio account and get a Twilio phone number in order to send SMS.
 3. Create a `ballerina.conf` file at the same level of `app` directory and update the credentials and the phone numbers
-as follows. Make sure to add the the phone numbers with country code.
+as follows. Make sure to add the the phone numbers with country code, without brackets and dashes.
 ```config
 ACCESS_TOKEN=""
 CLIENT_ID=""
@@ -65,7 +65,7 @@ Notify Me /1
 
 2. Run the app executing following command from the project level.
 ```bash
-$ ballerina run app -c ballerina.conf
+$ ballerina run app --config ballerina.conf
 ```
 You can see the output something similar to following and the SMS will be sent received in 1 minute.
 ```bash
